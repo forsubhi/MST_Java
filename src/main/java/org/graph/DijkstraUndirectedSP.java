@@ -118,7 +118,7 @@ public class DijkstraUndirectedSP {
     }
 
     public static void main(String[] args) {
-        String path = "D:\\workspace\\java\\algs4-data\\tiny2.txt";
+        String path = "D:\\workspace\\java\\algs4-data\\10000EWG.txt";
         EdgeWeightedGraph G = new EdgeWeightedGraph(path);
         for (int i = 0; i < G.V(); i++) {
             int source = i;
@@ -141,35 +141,24 @@ public class DijkstraUndirectedSP {
                 minCost = cost;
         }
         DijkstraUndirectedSP sp = totalCostMap.get(minCost);
+        System.out.println("The selected source is = " + sp.getSource());
 
-
-        // print shortest path
-        for (int t = 0; t < G.V(); t++) {
-            if (sp.hasPathTo(t)) {
-                StdOut.printf("%d to %d (%.2f)  ", sp.getSource(), t, sp.distTo(t));
-                for (Edge e : sp.pathTo(t)) {
-                    StdOut.print(e + "   ");
-                }
-                StdOut.println();
-            } else {
-                StdOut.printf("%d to %d         no path\n", sp.getSource(), t);
-            }
-        }
+        printMST(sp);
 
     }
 
-    static void printMST(int parent[], List<List<Node>> adj) {
+    static void printMST(DijkstraUndirectedSP sp) {
         double totalCost = 0;
         System.out.println("Edge \tWeight");
-        for (int i = 0; i < parent.length; i++) {
-            List<Node> nodes = adj.get(parent[i]);
-            for (Node node : nodes) {
-                if (node.node == i) {
-                    System.out.println(parent[i] + " - " + i + "\t" + node.cost);
-                    totalCost += node.cost;
-                }
+        for (int i = 0; i < sp.edgeTo.length; i++) {
+            Edge edge = sp.edgeTo[i];
+            if (edge != null) {
+                System.out.println(i + " - " + edge.other(i) + "\t" + edge.weight());
+                totalCost += edge.weight();
             }
+
         }
+
 
         System.out.println("Total Cost = " + totalCost);
     }
