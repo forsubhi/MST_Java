@@ -1,12 +1,18 @@
 package org.graph;
 
+import com.sun.glass.ui.Clipboard;
+import javafx.fxml.FXMLLoader;
+
 import java.util.*;
 
-public class GFG {
+public class Graph {
 
-    private final int[] parent;
+
+
+    public final int[] parent;
+    public final int source;
     // Member variables of this class
-    private double dist[];
+    public double dist[];
     private Set<Integer> settled;
     private PriorityQueue<Node> pq;
     // Number of vertices
@@ -14,10 +20,11 @@ public class GFG {
     List<List<Node>> adj;
 
     // Constructor of this class
-    public GFG(int V) {
+    public Graph(int V, int source) {
 
         // This keyword refers to current object itself
         this.V = V;
+        this.source = source;
         dist = new double[V];
         settled = new HashSet<Integer>();
         pq = new PriorityQueue<Node>(V, new Node());
@@ -26,17 +33,17 @@ public class GFG {
 
     // Method 1
     // Dijkstra's Algorithm
-    public void dijkstra(List<List<Node>> adj, int src) {
+    public void dijkstra(List<List<Node>> adj) {
         this.adj = adj;
 
         for (int i = 0; i < V; i++)
             dist[i] = Integer.MAX_VALUE;
 
         // Add source node to the priority queue
-        pq.add(new Node(src, 0));
+        pq.add(new Node(source, 0));
 
         // Distance to the source is 0
-        dist[src] = 0;
+        dist[source] = 0;
 
         while (settled.size() != V) {
 
@@ -95,84 +102,24 @@ public class GFG {
     }
 
     // Main driver method
-    public static void main(String arg[]) {
 
-        String path = "D:\\workspace\\java\\algs4-data\\tiny2.txt";
-        GraphReader graphReader = new GraphReader(path);
 
-        int V = 9;
-        int source = 0;
 
-        // Adjacency list representation of the
-        // connected edges by declaring List class object
-        // Declaring object of type List<Node>
-        List<List<Node>> adj
-                = new ArrayList<List<Node>>();
 
-        // Initialize list for every node
-        for (int i = 0; i < V; i++) {
-            List<Node> item = new ArrayList<Node>();
-            adj.add(item);
-        }
 
-        // Inputs for the GFG(dpq) graph
-        adj.get(0).add(new Node(1, 4));
-        adj.get(0).add(new Node(7, 8));
 
-        adj.get(1).add(new Node(0, 4));
-        adj.get(1).add(new Node(2, 8));
-        adj.get(1).add(new Node(7, 11));
 
-        adj.get(2).add(new Node(1, 8));
-        adj.get(2).add(new Node(3, 7));
-        adj.get(2).add(new Node(5, 4));
-        adj.get(2).add(new Node(8, 2));
-
-        adj.get(3).add(new Node(2, 7));
-        adj.get(3).add(new Node(4, 9));
-        adj.get(3).add(new Node(5, 14));
-
-        adj.get(4).add(new Node(3, 9));
-        adj.get(4).add(new Node(5, 10));
-
-        adj.get(5).add(new Node(2, 4));
-        adj.get(5).add(new Node(3, 14));
-        adj.get(5).add(new Node(4, 10));
-        adj.get(5).add(new Node(6, 2));
-
-        adj.get(6).add(new Node(5, 2));
-        adj.get(6).add(new Node(7, 1));
-        adj.get(6).add(new Node(8, 6));
-
-        adj.get(7).add(new Node(0, 8));
-        adj.get(7).add(new Node(1, 11));
-        adj.get(7).add(new Node(8, 7));
-        adj.get(7).add(new Node(6, 1));
-
-        // Calculating the single source shortest path
-        GFG dpq = new GFG(V);
-        dpq.dijkstra(adj, source);
-
-        // Printing the shortest path to all the nodes
-        // from the source node
-        System.out.println("The shorted path from node :");
-
-        for (int i = 0; i < dpq.dist.length; i++)
-            System.out.println(source + " to " + i + " is "
-                    + dpq.dist[i]);
-        printMST(dpq.parent, adj);
-    }
-
-    static void printMST(int parent[], List<List<Node>> adj) {
-        System.out.println("Edge \tWeight");
-        for (int i = 1; i < parent.length; i++) {
+   public static double computeTotalCost(int parent[], List<List<Node>> adj) {
+        double totalCost = 0;
+        for (int i = 0; i < parent.length; i++) {
             List<Node> nodes = adj.get(parent[i]);
             for (Node node : nodes) {
-                if(node.node==i)
-                    System.out.println(parent[i] + " - " + i + "\t" + node.cost);
+                if (node.node == i) {
+                    totalCost += node.cost;
+                }
             }
-
         }
+      return totalCost;
     }
 }
 

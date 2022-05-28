@@ -9,8 +9,7 @@ public class GraphReader {
 
     public final int V;
 
-    public List<List<Node>> adj
-            = new ArrayList<List<Node>>();
+    public List<List<Node>> adj;
 
     public GraphReader(String path)
     {
