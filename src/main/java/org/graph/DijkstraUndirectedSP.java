@@ -2,7 +2,6 @@ package org.graph;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DijkstraUndirectedSP {
@@ -117,7 +116,12 @@ public class DijkstraUndirectedSP {
         return source;
     }
 
+    public Edge[] getEdgeTo() {
+        return edgeTo;
+    }
+
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         String path = "D:\\workspace\\java\\algs4-data\\10000EWG.txt";
         EdgeWeightedGraph G = new EdgeWeightedGraph(path);
         for (int i = 0; i < G.V(); i++) {
@@ -145,9 +149,11 @@ public class DijkstraUndirectedSP {
 
         printMST(sp);
 
+        long end = System.currentTimeMillis();
+        System.out.println("Time = " + (end - start) + " ms");
     }
 
-    static void printMST(DijkstraUndirectedSP sp) {
+    public static void printMST(DijkstraUndirectedSP sp) {
         double totalCost = 0;
         System.out.println("Edge \tWeight");
         for (int i = 0; i < sp.edgeTo.length; i++) {
