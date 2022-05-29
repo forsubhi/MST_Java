@@ -17,7 +17,7 @@ public class ParallelDijkstraUndirectedSP {
         long start = System.currentTimeMillis();
         ExecutorService executorService = Executors.newFixedThreadPool(40);
         ConcurrentHashMap<Double, DijkstraUndirectedSP> totalCostMap = new ConcurrentHashMap<>();
-        String path = "D:\\workspace\\java\\algs4-data\\10000EWG.txt";
+        String path = "data\\tiny.txt";
         EdgeWeightedGraph G = new EdgeWeightedGraph(path);
         ArrayList<Future> futures = new ArrayList<>();
         for (int i = 0; i < G.V(); i++) {
