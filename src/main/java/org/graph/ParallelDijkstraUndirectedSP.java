@@ -15,9 +15,9 @@ public class ParallelDijkstraUndirectedSP {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        ExecutorService executorService = Executors.newFixedThreadPool(40);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         ConcurrentHashMap<Double, DijkstraUndirectedSP> totalCostMap = new ConcurrentHashMap<>();
-        String path = "data\\tiny.txt";
+        String path = "data\\mediumEWG.txt";
         EdgeWeightedGraph G = new EdgeWeightedGraph(path);
         ArrayList<Future> futures = new ArrayList<>();
         for (int i = 0; i < G.V(); i++) {
