@@ -1,7 +1,6 @@
 package org.graph;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +11,6 @@ public class DijkstraUndirectedSP {
     private IndexMinPQ<Double> pq;
 
     private static HashMap<Double, DijkstraUndirectedSP> totalCostMap = new HashMap<>();
-
-    ArrayList<Integer> removed = new ArrayList<>();
 
     public DijkstraUndirectedSP(EdgeWeightedGraph graph, int s) {
         this.source = s;
@@ -33,7 +30,6 @@ public class DijkstraUndirectedSP {
         pq.insert(s, distTo[s]);
         while (!pq.isEmpty()) {
             int v = pq.delMin();
-            removed.add(v);
             for (Edge edge : graph.adj(v)) relax(edge, v);
         }
         assert check(graph, s);
@@ -44,14 +40,8 @@ public class DijkstraUndirectedSP {
         if (distTo[w] > distTo[v] + edge.weight()) {
             distTo[w] = distTo[v] + edge.weight();
             edgeTo[w] = edge;
-            if (pq.contains(w))
-                pq.decreaseKey(w, distTo[w]);
-            else {
-                pq.insert(w, distTo[w]);
-                if (removed.contains(w)) {
-                    System.out.println("Found");
-                }
-            }
+            if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
+            else pq.insert(w, distTo[w]);
         }
     }
 
